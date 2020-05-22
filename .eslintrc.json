@@ -1,0 +1,14 @@
+{
+    "extends": ["react-app"],
+    "rules": {
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"],
+        "indent": ["error", "tab", { "SwitchCase": 1 }]
+    },
+    "overrides": [
+        {
+            "files": ["**/*.ts?(x)"]
+        }
+    ]
+}
