@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-interface ExchangeDialogProps {
+export interface ExchangeDialogProps {
 	data: ExchangeState,
 	wallets: WalletsState,
 	dialogOpen: boolean,
@@ -83,7 +83,7 @@ const ExchangeDialog: React.FC<ExchangeDialogProps> = (props) => {
 							onClick={makeExchange}
 							disabled={ratesEmpty || to.amount === undefined}
 						>
-							Exhange
+							Exchange
 						</Button>
 					</Toolbar>
 				</AppBar>

@@ -16,7 +16,7 @@ import { WalletsState } from '../store/wallets/reducer';
 import { ActiveWalletState } from '../store/activeWallet/reducer';
 import { ExchangeState } from '../store/exchange/reducer';
 
-interface AppProps {
+export interface AppProps {
 	wallets: WalletsState,
 	activeWallet: ActiveWalletState,
 	exchange: ExchangeState,
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const App: React.FC<AppProps> = (props) => {
+export const App: React.FC<AppProps> = (props) => {
 	const {
 		wallets, activeWallet, exchange, changeActiveWallet, getExchangeRates, cancelExchange,
 		updateAmount, updateWallets, updateIncomingWallet, updateOutcomingWallet

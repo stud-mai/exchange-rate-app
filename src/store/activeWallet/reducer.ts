@@ -6,7 +6,7 @@ export type ActiveWalletState = ActiveWallet;
 
 export const INITIAL_STATE: ActiveWalletState = Currencies.EUR;
 
-const activeWalletReducer = (state = INITIAL_STATE, action: ActiveWalletActions): ActiveWalletState => {
+const activeWalletReducer = (state: ActiveWalletState = INITIAL_STATE, action: ActiveWalletActions): ActiveWalletState => {
 	switch (action.type) {
 		case ActionTypes.CHANGE_ACTIVE_WALLET:
 			return action.activeWallet;

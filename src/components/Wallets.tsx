@@ -96,7 +96,7 @@ const useMenuItemStyles = makeStyles(theme => ({
 	selected: {}
 }));
 
-interface WalletsProps {
+export interface WalletsProps {
 	variant: 'wallet' | 'exchangeable',
 	wallets: WalletsState,
 	activeWallet: ActiveWalletState,

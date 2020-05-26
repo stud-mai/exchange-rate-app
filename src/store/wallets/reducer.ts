@@ -14,7 +14,7 @@ export const INITIAL_STATE: WalletsState = {
 	RUB: 1254.66
 };
 
-const walletsReducer = (state = INITIAL_STATE, action: WalletsActions): WalletsState => {
+const walletsReducer = (state: WalletsState = INITIAL_STATE, action: WalletsActions): WalletsState => {
 	switch (action.type) {
 		case ActionTypes.UPDATE_WALLETS: {
 			const { from, to } = action;

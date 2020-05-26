@@ -18,13 +18,13 @@ export interface ExchangeState {
 	rates: Rates
 }
 
-const INITIAL_STATE: ExchangeState = {
+export const INITIAL_STATE: ExchangeState = {
 	from: { currency: Currencies.EUR },
 	to: { currency: Currencies.USD },
 	rates: { }
 };
 
-const exchangeReducer = (state = INITIAL_STATE, action: ExchangeActions): ExchangeState => {
+const exchangeReducer = (state: ExchangeState = INITIAL_STATE, action: ExchangeActions): ExchangeState => {
 	switch (action.type) {
 		case ActionTypes.GET_EXCHANGE_RATES:
 			return {
@@ -62,19 +62,15 @@ const exchangeReducer = (state = INITIAL_STATE, action: ExchangeActions): Exchan
 				...state,
 				from: {
 					...from,
-					amount: wallet === 'from'
+					amount: wallet === 'from' || amount === undefined
 						? amount
-						: amount === undefined
-							? amount
-							: toHundredths(amount / Number(rate))
+						: toHundredths(amount / Number(rate))
 				},
 				to: {
 					...to,
-					amount: wallet === 'to'
+					amount: wallet === 'to' || amount === undefined
 						? amount
-						: amount === undefined
-							? amount
-							: toHundredths(amount * Number(rate))
+						: toHundredths(amount * Number(rate))
 				}
 			};
 		}
@@ -97,10 +93,12 @@ const exchangeReducer = (state = INITIAL_STATE, action: ExchangeActions): Exchan
 
 		case ActionTypes.UPDATE_OUTCOMING_WALLET:
 			return {
-				...state,
 				from: {
 					...state.from,
 					currency: action.currency
+				},
+				to: {
+					currency: state.to.currency
 				},
 				rates: {}
 			};
