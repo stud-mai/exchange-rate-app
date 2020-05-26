@@ -9,12 +9,10 @@ import App from './containers/App';
 const store = createStore();
 
 const renderApp = () => ReactDOM.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<CssBaseline />
-			<App />
-		</Provider>
-	</React.StrictMode>,
+	<Provider store={store}>
+		<CssBaseline />
+		<App />
+	</Provider>,
 	document.getElementById('root')
 );
 

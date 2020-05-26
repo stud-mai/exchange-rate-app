@@ -1,4 +1,11 @@
-import { WalletsState, HadlersType } from './types';
+import { Currencies } from '../../constants/currencies';
+import { WalletsActions } from './actions';
+import { ActionTypes } from './actionTypes';
+import { toHundredths } from '../../utils';
+
+export type WalletsState = {
+	[key in Currencies]: number
+}
 
 export const INITIAL_STATE: WalletsState = {
 	USD: 25.51,
@@ -7,9 +14,20 @@ export const INITIAL_STATE: WalletsState = {
 	RUB: 1254.66
 };
 
-const walletsReducer = (state: WalletsState = INITIAL_STATE, action: any): WalletsState => {
-	const handlers: { [actionType: string]: HadlersType } = {};
-	return handlers[action.type] ? handlers[action.type](state, action) : state;
+const walletsReducer = (state = INITIAL_STATE, action: WalletsActions): WalletsState => {
+	switch (action.type) {
+		case ActionTypes.UPDATE_WALLETS: {
+			const { from, to } = action;
+			return {
+				...state,
+				[from.currency]: toHundredths(state[from.currency] - (from.amount || 0)),
+				[to.currency]: toHundredths(state[to.currency] + (to.amount || 0))
+			};
+		}
+
+		default:
+			return state;
+	}
 };
 
 export default walletsReducer;
