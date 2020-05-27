@@ -84,7 +84,7 @@ describe('Wallets component', () => {
 			const amountInput = wrapper.find(InputBase);
 
 			amountInput.simulate('change', { target: { value: '98.2352' } });
-			expect(onAmountChange).toHaveBeenCalledWith(98.23);
+			expect(onAmountChange).toHaveBeenCalledWith({ target: { value: '98.2352' } });
 		});
 
 		it('should call onAmountChange with correct data when amount has been changed (empty string case)', () => {
@@ -93,16 +93,7 @@ describe('Wallets component', () => {
 			const amountInput = wrapper.find(InputBase);
 
 			amountInput.simulate('change', { target: { value: '' } });
-			expect(onAmountChange).toHaveBeenCalledWith(undefined);
-		});
-
-		it('should not call onAmountChange when input greater wallet\'s balance', () => {
-			const onAmountChange = jest.fn();
-			const wrapper = setupWrapper({ ...props, onAmountChange });
-			const amountInput = wrapper.find(InputBase);
-
-			amountInput.simulate('change', { target: { value: '1000.01' } });
-			expect(onAmountChange).not.toHaveBeenCalled();
+			expect(onAmountChange).toHaveBeenCalledWith({ target: { value: '' } });
 		});
 	});
 });

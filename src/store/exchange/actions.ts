@@ -16,7 +16,7 @@ export type ExchangeActions =
 	| { type: ActionTypes.GET_EXCHANGE_RATES; baseCurrency: ActiveWallet }
 	| { type: ActionTypes.SET_EXCHANGE_RATES; data: RateResponse }
 	| { type: ActionTypes.CANCEL_EXCHANGE }
-	| { type: ActionTypes.UPDATE_AMOUNT; wallet: 'from' | 'to', amount?: number }
+	| { type: ActionTypes.UPDATE_AMOUNT; wallet: 'from' | 'to', value: string }
 	| { type: ActionTypes.UPDATE_INCOMING_WALLET, currency: ActiveWallet }
 	| { type: ActionTypes.UPDATE_OUTCOMING_WALLET, currency: ActiveWallet }
 
@@ -32,10 +32,10 @@ export const setExchangeRates = (data: RateResponse): ExchangeActions => ({
 
 export const cancelExchange = (): ExchangeActions => ({ type: ActionTypes.CANCEL_EXCHANGE });
 
-export const updateAmount = (wallet: 'from' | 'to', amount?: number): ExchangeActions => ({
+export const updateAmount = (wallet: 'from' | 'to', value: string): ExchangeActions => ({
 	type: ActionTypes.UPDATE_AMOUNT,
 	wallet,
-	amount
+	value
 });
 
 export const updateIncomingWallet = (currency: ActiveWallet): ExchangeActions => ({

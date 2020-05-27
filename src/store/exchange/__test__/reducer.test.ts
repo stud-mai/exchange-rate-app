@@ -80,14 +80,14 @@ describe('Wallets Reducer', () => {
 	describe('Updating amount prop for given wallet', () => {
 		const state = {
 			from: { currency: Currencies.USD, amount: 10 },
-			to: { currency: Currencies.RUB, amount: 733.9 },
+			to: { currency: Currencies.RUB, amount: 733.90 },
 			rates: { RUB: 73.39 }
 		};
 		it('should update amount prop for outcomming (from) wallet', () => {
 			const action: ExchangeActions = {
 				type: ActionTypes.UPDATE_AMOUNT,
 				wallet: 'from',
-				amount: 100
+				value: '100'
 			};
 			expect(reducer(state, action)).toEqual({
 				from: { currency: Currencies.USD, amount: 100 },
@@ -96,10 +96,11 @@ describe('Wallets Reducer', () => {
 			});
 		});
 
-		it('should handle undefined value of amount prop for outcomming (from) wallet', () => {
+		it('should update amount prop for outcomming (from) wallet with undefined', () => {
 			const action: ExchangeActions = {
 				type: ActionTypes.UPDATE_AMOUNT,
-				wallet: 'from'
+				wallet: 'from',
+				value: ''
 			};
 			expect(reducer(state, action)).toEqual({
 				from: { currency: Currencies.USD, amount: undefined },
@@ -112,7 +113,7 @@ describe('Wallets Reducer', () => {
 			const action: ExchangeActions = {
 				type: ActionTypes.UPDATE_AMOUNT,
 				wallet: 'to',
-				amount: 14678
+				value: '14678'
 			};
 			expect(reducer(state, action)).toEqual({
 				from: { currency: Currencies.USD, amount: 200 },
@@ -121,10 +122,20 @@ describe('Wallets Reducer', () => {
 			});
 		});
 
+		it('should not update amount prop if value has more than two digits after dot', () => {
+			const action: ExchangeActions = {
+				type: ActionTypes.UPDATE_AMOUNT,
+				wallet: 'to',
+				value: '733.9032'
+			};
+			expect(reducer(state, action)).toEqual(state);
+		});
+
 		it('should handle undefined value of amount prop for incomming (to) wallet', () => {
 			const action: ExchangeActions = {
 				type: ActionTypes.UPDATE_AMOUNT,
-				wallet: 'to'
+				wallet: 'to',
+				value: ''
 			};
 			expect(reducer(state, action)).toEqual({
 				from: { currency: Currencies.USD, amount: undefined },

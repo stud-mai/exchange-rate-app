@@ -38,9 +38,9 @@ describe('Exchange Actions', () => {
 		const expectedAction = {
 			type: ActionTypes.UPDATE_AMOUNT,
 			wallet: 'from',
-			amount: 100
+			value: '100'
 		};
-		expect(actions.updateAmount('from', 100)).toEqual(expectedAction);
+		expect(actions.updateAmount('from', '100')).toEqual(expectedAction);
 	});
 
 	it('should create an action to update currency of incomming wallet', () => {

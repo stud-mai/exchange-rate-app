@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { Fragment, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -47,7 +48,7 @@ export interface ExchangeDialogProps {
 	dialogOpen: boolean,
 	closeDialog: () => void,
 	makeExchange: () => void,
-	updateAmount: (wallet: 'from' | 'to', amount?: number) => void,
+	updateAmount: (wallet: 'from' | 'to', amount: string) => void,
 	updateIncomingWallet: (currency: ActiveWallet) => void,
 	updateOutcomingWallet: (currency: ActiveWallet) => void,
 }
@@ -63,8 +64,11 @@ const ExchangeDialog: React.FC<ExchangeDialogProps> = (props) => {
 	const fromCurrencySign = from.currency && CurrencySigns[from.currency];
 	const toCurrencySign = to.currency && CurrencySigns[to.currency];
 	const rate = to.currency && rates[to.currency]?.toFixed(4);
+	const exchangeDisallowed: boolean = ratesEmpty || wallets[from.currency] < Number(from.amount) || !from.amount;
 
-	const amountChangeHandler = (wallet: 'from' | 'to') => (amount?: number) => updateAmount(wallet, amount);
+	const amountChangeHandler = useCallback((wallet: 'from' | 'to') =>
+		(event: React.ChangeEvent<{ value: string }>): void => updateAmount(wallet, event.target.value),
+	[]);
 
 	return (
 		<Fragment>
@@ -81,7 +85,7 @@ const ExchangeDialog: React.FC<ExchangeDialogProps> = (props) => {
 							variant="outlined"
 							color="inherit"
 							onClick={makeExchange}
-							disabled={ratesEmpty || to.amount === undefined}
+							disabled={exchangeDisallowed}
 						>
 							Exchange
 						</Button>

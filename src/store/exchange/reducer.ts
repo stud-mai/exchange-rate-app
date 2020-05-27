@@ -56,8 +56,14 @@ const exchangeReducer = (state: ExchangeState = INITIAL_STATE, action: ExchangeA
 
 		case ActionTypes.UPDATE_AMOUNT: {
 			const { from, to, rates } = state;
-			const { wallet, amount } = action;
+			const { wallet, value } = action;
 			const rate = rates[to.currency];
+
+			const matchedValue: string = (value.match(/^\d+|(\.\d{0,2})/g) || []).join('');
+			const amount: number | undefined = matchedValue.length
+				? Number(matchedValue)
+				: undefined;
+
 			return {
 				...state,
 				from: {

@@ -122,8 +122,9 @@ describe('ExchangeDialog component', () => {
 
 			it('should have call updateAmount with correct parametrs', () => {
 				const wallet = wrapper.find('Wallets').at(0);
-				(wallet.prop('onAmountChange') as (v: number) => void)(432);
-				expect(componentProps.updateAmount).toHaveBeenCalledWith('from', 432);
+				const handler: (event: { target: { value: string } }) => void = wallet.prop('onAmountChange');
+				handler({ target: { value: '432' } });
+				expect(componentProps.updateAmount).toHaveBeenCalledWith('from', '432');
 			});
 		});
 
@@ -138,8 +139,9 @@ describe('ExchangeDialog component', () => {
 
 			it('should have call updateAmount with correct parametrs', () => {
 				const wallet = wrapper.find('Wallets').at(1);
-				(wallet.prop('onAmountChange') as (v: number) => void)(432);
-				expect(componentProps.updateAmount).toHaveBeenCalledWith('to', 432);
+				const handler: (event: { target: { value: string } }) => void = wallet.prop('onAmountChange');
+				handler({ target: { value: '432.123' } });
+				expect(componentProps.updateAmount).toHaveBeenCalledWith('to', '432.123');
 			});
 		});
 	});
@@ -177,6 +179,28 @@ describe('ExchangeDialog component', () => {
 				const wallet = wrapper.find('Wallets').at(1);
 				expect(wallet.prop('amount')).toEqual(734.27);
 			});
+		});
+	});
+
+	describe('Render with entered amount to exchange which exceeds wallet\'s balance', () => {
+		let wrapper: ReturnType<typeof setupWrapper>;
+
+		beforeEach(() => {
+			wrapper = setupWrapper({
+				data: {
+					...data.dataWithRatesAndAmount,
+					from: {
+						...data.dataWithRatesAndAmount.from,
+						amount: 30
+					}
+				}
+			});
+		});
+
+		it('should have disabled exchange button', () => {
+			const button = wrapper.find(AppBar).find(Button);
+			expect(button.exists()).toBeTruthy();
+			expect(button.prop('disabled')).toBeTruthy();
 		});
 	});
 });

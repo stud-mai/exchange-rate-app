@@ -10,8 +10,6 @@ import Grid from '@material-ui/core/Grid';
 import ExpandIcon from '@material-ui/icons/ExpandMoreRounded';
 
 import { ReactComponent as Logo } from '../assets/logo.svg';
-import { identity } from '../utils';
-
 import { CurrencySigns } from '../constants/currencies';
 import { WalletsState } from '../store/wallets/reducer';
 import { ActiveWalletState } from '../store/activeWallet/reducer';
@@ -103,12 +101,12 @@ export interface WalletsProps {
 	excludedWallet?: ActiveWalletState,
 	amount?: number,
 	onActiveWalletChange: (activeWallet: ActiveWalletState) => void,
-	onAmountChange?: (amount?: number) => void
+	onAmountChange?: (event: React.ChangeEvent<{ value: string }>) => void
 }
 
 const Wallets: React.FC<WalletsProps> = (props) => {
 	const {
-		variant, wallets, activeWallet, excludedWallet, amount, onActiveWalletChange, onAmountChange = identity
+		variant, wallets, activeWallet, excludedWallet, amount, onActiveWalletChange, onAmountChange
 	} = props;
 
 	const classes = useStyles();
@@ -118,18 +116,6 @@ const Wallets: React.FC<WalletsProps> = (props) => {
 	const activeWalletChangeHandler = useCallback((event: React.ChangeEvent<{ value: unknown }>): void => {
 		onActiveWalletChange(event.target.value as ActiveWalletState);
 	}, []);
-
-	const amountChangeHandler = useCallback((event: React.ChangeEvent<{ value: string }>): void => {
-		const matchedValue: string = (event.target.value.match(/^\d+|(\.\d{0,2})/g) || []).join('');
-		if (matchedValue.length) {
-			const value: number = Number(matchedValue);
-			if (value <= wallets[activeWallet]) {
-				onAmountChange(value);
-			}
-		} else {
-			onAmountChange(undefined);
-		}
-	}, [activeWallet]);
 
 	return (
 		<Card elevation={3} className={classes.card}>
@@ -165,7 +151,7 @@ const Wallets: React.FC<WalletsProps> = (props) => {
 							endAdornment={CurrencySigns[activeWallet]}
 							type="number"
 							value={amount !== undefined ? amount : ''}
-							onChange={amountChangeHandler}
+							onChange={onAmountChange}
 						/>
 						: <Typography className={classes.cardSum}>
 							{CurrencySigns[activeWallet] + wallets[activeWallet]}
