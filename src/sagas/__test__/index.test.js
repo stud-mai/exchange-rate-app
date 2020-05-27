@@ -20,7 +20,15 @@ describe('Sagas tests', () => {
 			.provide([[call(API.getExchangeRates, mockedResponse.base), mockedResponse]])
 			.put(actions.setExchangeRates(mockedResponse))
 			.dispatch(actions.getExchangeRates(mockedResponse.base))
-			.run();
+			.silentRun();
+	});
+
+	it('should not set exchange rates when error happend', () => {
+		return expectSaga(rootSaga)
+			.provide([[call(API.getExchangeRates, mockedResponse.base), { err: 'error' }]])
+			.not.put(actions.setExchangeRates(mockedResponse))
+			.dispatch(actions.getExchangeRates(mockedResponse.base))
+			.silentRun();
 	});
 
 	it('should update currency for putcoming (from) wallet and get and set exchange rates', () => {
@@ -29,6 +37,6 @@ describe('Sagas tests', () => {
 			.put(changeActiveWallet(mockedResponse.base))
 			.put(actions.setExchangeRates(mockedResponse))
 			.dispatch(actions.updateOutcomingWallet(mockedResponse.base))
-			.run();
+			.silentRun();
 	});
 });
