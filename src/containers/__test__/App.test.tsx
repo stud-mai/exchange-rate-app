@@ -4,7 +4,6 @@ import Fab from '@material-ui/core/Fab';
 
 import { App, AppProps } from '../App';
 import { Currencies } from '../../constants/currencies';
-import { identity } from '../../utils';
 import * as wallets from '../../components/__test__/fixture/wallets';
 import * as exchange from '../../components/__test__/fixture/exchageData';
 

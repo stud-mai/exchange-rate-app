@@ -1,4 +1,4 @@
-import { all, takeLatest, take, put, call, fork, cancel, delay, race, select } from 'redux-saga/effects';
+import { all, takeLatest, take, put, call, fork, cancel, delay, race } from 'redux-saga/effects';
 import * as API from '../API';
 import { setExchangeRates } from '../store/exchange/actions';
 import { changeActiveWallet } from '../store/activeWallet/actions';
