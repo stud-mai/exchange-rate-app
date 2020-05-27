@@ -6,5 +6,5 @@ export const getExchangeRates = (baseCurrency: ActiveWallet): Promise<RateRespon
 	const symbols: string = Object.values(Currencies).filter(c => c !== baseCurrency).join(',');
 	return fetch(`https://api.exchangeratesapi.io/latest?base=${baseCurrency}&symbols=${symbols}`)
 		.then(res => res.json())
-		.catch(err => err);
+		.catch(err => ({ err }));
 };

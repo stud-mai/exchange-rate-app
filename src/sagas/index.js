@@ -9,7 +9,11 @@ const DELAY = 10000;
 function* ratesUpdating(baseCurrency) {
 	while (true) {
 		const data = yield call(API.getExchangeRates, baseCurrency);
-		yield put(setExchangeRates(data));
+		if (data.err) {
+			console.log('Error:', data.err);
+		} else {
+			yield put(setExchangeRates(data));
+		}
 		yield delay(DELAY);
 	}
 }
